@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Contact - Sofix Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+<body class="min-h-screen p-6">
+  <header class="flex items-center justify-between mb-6">
+    <h1 class="font-semibold text-xl">Sofix Store - Contact</h1>
+    <a href="../index.html" class="text-blue-600 hover:underline">Back to Home</a>
+  </header>
+  <section>
+    <h2 class="font-semibold text-lg mb-4">Get in Touch</h2>
+    <form class="flex flex-col gap-4 max-w-md">
+      <div>
+        <label for="name" class="block text-sm font-medium">Name</label>
+        <input
+          id="name"
+          type="text"
+          class="w-full rounded-md border border-gray-300 p-2 text-sm"
+          placeholder="Your Name"
+        />
+      </div>
+      <div>
+        <label for="email" class="block text-sm font-medium">Email</label>
+        <input
+          id="email"
+          type="email"
+          class="w-full rounded-md border border-gray-300 p-2 text-sm"
+          placeholder="Your Email"
+        />
+      </div>
+      <div>
+        <label for="message" class="block text-sm font-medium">Message</label>
+        <textarea
+          id="message"
+          class="w-full rounded-md border border-gray-300 p-2 text-sm"
+          rows="4"
+          placeholder="Your Message"
+        ></textarea>
+      </div>
+      <button
+        type="submit"
+        class="bg-[#f97316] text-white rounded-lg px-6 py-2 text-sm font-semibold"
+      >
+        Send Message
+      </button>
+    </form>
+  </section>
+</body>
+</html>
