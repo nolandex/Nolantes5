@@ -15,11 +15,11 @@
   />
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
-<body class="min-h-screen flex items-center justify-center p-6 gap-8">
+<body class="min-h-screen flex flex-col md:flex-row">
   <!-- Left Panel: Product List -->
   <section
     id="product-list"
-    class="w-[280px] bg-[#f6f5f6] rounded-2xl flex flex-col p-5 select-none"
+    class="w-full md:w-1/3 bg-[#f6f5f6] flex flex-col p-5 select-none overflow-y-auto"
   >
     <header class="flex items-center justify-between mb-4">
       <button aria-label="Menu" class="text-black text-xl">
@@ -107,11 +107,11 @@
         <!-- Popular products inserted by JS -->
       </div>
     </div>
-    <div>
+    <div class="flex-1 overflow-y-auto">
       <h2 class="font-semibold text-sm mb-3">All</h2>
       <div
         id="all-products"
-        class="grid grid-cols-2 gap-4"
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-4"
       >
         <!-- All products inserted by JS -->
       </div>
@@ -153,7 +153,7 @@
   <!-- Middle Panel: Product Detail -->
   <section
     id="product-detail"
-    class="w-[280px] bg-[#f6f5f6] rounded-2xl flex flex-col p-5 select-none hidden"
+    class="w-full md:w-1/3 bg-[#f6f5f6] flex flex-col p-5 select-none hidden overflow-y-auto"
   >
     <header class="flex items-center justify-between mb-4">
       <button aria-label="Back" class="text-black text-lg" onclick="showPanel('product-list')">
@@ -176,7 +176,7 @@
       <h2 id="detail-name" class="font-semibold text-lg mb-1">Galaxy 1642</h2>
       <p id="detail-price" class="font-bold text-xl mb-2">$120</p>
       <div
-        class=" syncing styles inline-flex items-center border border-gray-300 rounded-full overflow-hidden"
+        class="inline-flex items-center border border-gray-300 rounded-full overflow-hidden"
         style="font-size: 0.875rem;"
       >
         <button
@@ -230,7 +230,7 @@
   <!-- Right Panel: Cart -->
   <section
     id="cart"
-    class="w-[280px] bg-[#f6f5f6] rounded-2xl flex flex-col p-5 select-none hidden"
+    class="w-full md:w-1/3 bg-[#f6f5f6] flex flex-col p-5 select-none hidden overflow-y-auto"
   >
     <header class="flex items-center gap-3 mb-4">
       <button aria-label="Back" class="text-black text-lg" onclick="showPanel('product-list')">
