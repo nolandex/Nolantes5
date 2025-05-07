@@ -15,17 +15,155 @@
   />
   <link rel="stylesheet" href="../assets/css/style.css" />
 </head>
-<body class="min-h-screen p-6">
-  <header class="flex items-center justify-between mb-6">
-    <h1 class="font-semibold text-xl">Sofix Store - Products</h1>
-    <a href="../index.html" class="text-blue-600 hover:underline">Back to Home</a>
-  </header>
-  <section>
-    <h2 class="font-semibold text-lg mb-4">All Products</h2>
-    <div class="grid grid-cols-2 gap-4">
-      <!-- Produk akan diisi oleh JS atau hard-coded -->
+<body class="min-h-screen relative">
+  <!-- Sidebar Menu -->
+  <nav
+    id="sidebar"
+    class="fixed top-0 left-0 w-64 bg-white h-full shadow-lg transform -translate-x-full transition-transform duration-300 z-50 p-4 hidden md:hidden"
+  >
+    <button
+      aria-label="Close Menu"
+      class="text-black text-xl mb-4"
+      onclick="toggleSidebar()"
+    >
+      <i class="fas fa-times"></i>
+    </button>
+    <div class="mb-4">
+      <p class="text-sm">Logged in as: <span id="user-status">Guest</span></p>
     </div>
-  </section>
+    <ul class="space-y-4">
+      <li><a href="../index.html" class="text-lg hover:text-[#f97316]" onclick="toggleSidebar()">Home</a></li>
+      <li><a href="products.html" class="text-lg hover:text-[#f97316]" onclick="toggleSidebar()">Products</a></li>
+      <li><a href="contact.html" class="text-lg hover:text-[#f97316]" onclick="toggleSidebar()">Contact</a></li>
+      <li><a href="#" class="text-lg hover:text-[#f97316]" onclick="logout(event)">Logout</a></li>
+    </ul>
+  </nav>
+
+  <!-- Overlay for Sidebar -->
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40" onclick="toggleSidebar()"></div>
+
+  <!-- Modal for Testimonials -->
+  <div id="testimonial-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg p-6 w-11/12 max-w-md">
+      <h2 class="text-lg font-semibold mb-4">Testimonials</h2>
+      <ul class="space-y-4 max-h-64 overflow-y-auto">
+        <li class="border-b pb-2">
+          <p class="font-semibold">John Doe</p>
+          <p class="text-sm text-gray-600">"Great products and fast delivery!"</p>
+        </li>
+        <li class="border-b pb-2">
+          <p class="font-semibold">Jane Smith</p>
+          <p class="text-sm text-gray-600">"Love the quality of the lamps!"</p>
+        </li>
+      </ul>
+      <button class="mt-4 bg-[#f97316] text-white rounded-lg px-4 py-2" onclick="closeModal('testimonial-modal')">Close</button>
+    </div>
+  </div>
+
+  <!-- Modal for Admin Login -->
+  <div id="admin-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg p-6 w-11/12 max-w-md">
+      <h2 class="text-lg font-semibold mb-4">Admin Login</h2>
+      <form onsubmit="adminLogin(event)">
+        <div class="mb-4">
+          <label for="admin-username" class="block text-sm font-medium">Username</label>
+          <input id="admin-username" type="text" class="w-full rounded-md border border-gray-300 p-2 text-sm" placeholder="Username" />
+        </div>
+        <div class="mb-4">
+          <label for="admin-password" class="block text-sm font-medium">Password</label>
+          <input id="admin-password" type="password" class="w-full rounded-md border border-gray-300 p-2 text-sm" placeholder="Password" />
+        </div>
+        <button type="submit" class="bg-[#f97316] text-white rounded-lg px-4 py-2">Login</button>
+        <button type="button" class="ml-2 text-gray-600" onclick="closeModal('admin-modal')">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal for Cart -->
+  <div id="cart-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg p-6 w-11/12 max-w-md">
+      <h2 class="text-lg font-semibold mb-4">Your Cart</h2>
+      <p id="cart-modal-product-count" class="text-xs mb-4">0 products</p>
+      <ul id="cart-modal-items" class="flex flex-col gap-3 mb-6 max-h-64 overflow-y-auto"></ul>
+      <dl class="text-xs mb-6">
+        <div class="flex justify-between mb-1">
+          <dt>Subtotal</dt>
+          <dd id="cart-modal-subtotal" class="font-semibold">$0</dd>
+        </div>
+        <div class="flex justify-between mb-1">
+          <dt>Delivery</dt>
+          <dd id="cart-modal-delivery" class="font-semibold">$14</dd>
+        </div>
+        <div class="flex justify-between border-t border-gray-300 pt-2 font-semibold text-sm">
+          <dt>Total</dt>
+          <dd id="cart-modal-total">$14</dd>
+        </div>
+      </dl>
+      <button class="bg-[#f97316] text-white rounded-lg px-4 py-2 mr-2" onclick="goToCart()">Go to Cart</button>
+      <button class="text-gray-600" onclick="closeModal('cart-modal')">Close</button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="p-6">
+    <header class="flex items-center justify-between mb-6">
+      <div class="flex items-center gap-3">
+        <button aria-label="Menu" class="text-black text-xl" onclick="toggleSidebar()">
+          <i class="fas fa-bars"></i>
+        </button>
+        <h1 class="font-semibold text-xl">Sofix Store - Products</h1>
+      </div>
+      <a href="../index.html" class="text-blue-600 hover:underline">Back to Home</a>
+    </header>
+    <section>
+      <h2 class="font-semibold text-lg mb-4">All Products</h2>
+      <div id="all-products" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <!-- Products inserted by JS -->
+      </div>
+    </section>
+  </div>
+
+  <!-- Sticky Footer -->
+  <footer
+    class="fixed bottom-0 left-0 w-full bg-white p-2 flex justify-around items-center border-t border-gray-300 z-50"
+  >
+    <button
+      aria-label="Cart"
+      class="text-xl text-black hover:text-[#f97316] relative"
+      onclick="openCartModal()"
+    >
+      <i class="fas fa-shopping-cart"></i>
+      <span
+        id="footer-cart-count"
+        class="absolute -top-2 -right-3 bg-[#f97316] text-white rounded-full text-[10px] w-5 h-5 flex items-center justify-center font-semibold"
+      >0</span>
+    </button>
+    <button
+      aria-label="Testimonials"
+      class="text-xl text-black hover:text-[#f97316]"
+      onclick="openTestimonialModal()"
+    >
+      <i class="fas fa-comment"></i>
+    </button>
+    <button
+      aria-label="Admin"
+      class="text-xl text-black hover:text-[#f97316]"
+      onclick="openAdminModal()"
+    >
+      <i class="fas fa-user-shield"></i>
+    </button>
+  </footer>
+
   <script src="../assets/js/script.js"></script>
+  <script>
+    // Render products on page load
+    document.addEventListener("DOMContentLoaded", () => {
+      const allContainer = document.getElementById("all-products");
+      products.forEach((product) => {
+        const article = createProductCard(product, true);
+        allContainer.appendChild(article);
+      });
+    });
+  </script>
 </body>
 </html>
