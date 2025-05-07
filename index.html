@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1" name="viewport" />
   <title>Sofix Store Interactive</title>
-  <script src="https://cdn Resonance API
   <script src="https://cdn.tailwindcss.com"></script>
   <link
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -22,7 +21,133 @@
     id="product-list"
     class="w-[280px] bg-[#f6f5f6] rounded-2xl flex flex-col p-5 select-none"
   >
-    <!-- ... (Konten section product-list dari kode asli) ... -->
+    <header class="flex items-center justify-between mb-4">
+      <button aria-label="Menu" class="text-black text-xl">
+        <i class="fas fa-bars"></i>
+      </button>
+      <h1 class="font-semibold text-base">Sofix Store</h1>
+      <div class="w-6"></div>
+    </header>
+    <form class="flex items-center gap-2 mb-4" onsubmit="return false">
+      <label class="sr-only" for="search">Search</label>
+      <div
+        class="flex items-center bg-white rounded-md px-3 py-2 flex-grow"
+      >
+        <i class="fas fa-search text-gray-400"></i>
+        <input
+          id="search"
+          class="ml-2 w-full text-xs text-gray-400 placeholder-gray-300 focus:outline-none bg-transparent"
+          placeholder="Search"
+          type="search"
+          oninput="filterProducts()"
+          autocomplete="off"
+        />
+      </div>
+      <button
+        aria-label="Filter"
+        class="bg-white rounded-md p-2 shadow-sm"
+        type="button"
+        disabled
+        title="Filter not implemented"
+      >
+        <i class="fas fa-sliders-h text-gray-600"></i>
+      </button>
+    </form>
+    <nav
+      aria-label="Product categories"
+      class="flex gap-3 mb-5 overflow-x-auto no-scrollbar"
+    >
+      <button
+        aria-current="true"
+        class="category-btn flex items-center justify-center w-10 h-10 rounded-full bg-[#f97316] text-white text-lg shrink-0"
+        data-category="all"
+        onclick="selectCategory(event)"
+      >
+        <i class="fas fa-lightbulb"></i>
+      </button>
+      <button
+        class="category-btn flex items-center justify-center w-10 h-10 rounded-full bg-white text-gray-600 text-lg shrink-0"
+        data-category="plug"
+        onclick="selectCategory(event)"
+        title="Plug"
+      >
+        <i class="fas fa-plug"></i>
+      </button>
+      <button
+        class="category-btn flex items-center justify-center w-10 h-10 rounded-full bg-white text-gray-600 text-lg shrink-0"
+        data-category="lamp"
+        onclick="selectCategory(event)"
+        title="Lamp"
+      >
+        <i class="fas fa-lamp"></i>
+      </button>
+      <button
+        class="category-btn flex items-center justify-center w-10 h-10 rounded-full bg-white text-gray-600 text-lg shrink-0"
+        data-category="lightbulb"
+        onclick="selectCategory(event)"
+        title="Lightbulb"
+      >
+        <i class="fas fa-lightbulb"></i>
+      </button>
+      <button
+        class="category-btn flex items-center justify-center w-10 h-10 rounded-full bg-white text-gray-600 text-lg shrink-0"
+        data-category="couch"
+        onclick="selectCategory(event)"
+        title="Couch"
+      >
+        <i class="fas fa-couch"></i>
+      </button>
+    </nav>
+    <div class="mb-3">
+      <h2 class="font-semibold text-sm mb-2">Popular</h2>
+      <div
+        id="popular-products"
+        class="flex gap-3 overflow-x-auto no-scrollbar"
+      >
+        <!-- Popular products inserted by JS -->
+      </div>
+    </div>
+    <div>
+      <h2 class="font-semibold text-sm mb-3">All</h2>
+      <div
+        id="all-products"
+        class="grid grid-cols-2 gap-4"
+      >
+        <!-- All products inserted by JS -->
+      </div>
+    </div>
+    <nav
+      aria-label="Bottom navigation"
+      class="mt-auto flex justify-around border-t border-gray-300 pt-3 text-gray-400 text-xl"
+    >
+      <button
+        aria-label="Home"
+        class="text-black"
+        onclick="showPanel('product-list')"
+        title="Home"
+      >
+        <i class="fas fa-th-large"></i>
+      </button>
+      <button
+        aria-label="Cart"
+        onclick="showPanel('cart')"
+        title="Cart"
+        class="relative"
+      >
+        <i class="fas fa-shopping-cart"></i>
+        <span
+          id="cart-count"
+          class="absolute -top-2 -right-3 bg-[#f97316] text-white rounded-full text-[10px] w-5 h-5 flex items-center justify-center font-semibold"
+          >0</span
+        >
+      </button>
+      <button aria-label="Favorites" disabled title="Favorites not implemented">
+        <i class="fas fa-heart"></i>
+      </button>
+      <button aria-label="Profile" disabled title="Profile not implemented">
+        <i class="fas fa-user"></i>
+      </button>
+    </nav>
   </section>
 
   <!-- Middle Panel: Product Detail -->
@@ -30,7 +155,76 @@
     id="product-detail"
     class="w-[280px] bg-[#f6f5f6] rounded-2xl flex flex-col p-5 select-none hidden"
   >
-    <!-- ... (Konten section product-detail dari kode asli) ... -->
+    <header class="flex items-center justify-between mb-4">
+      <button aria-label="Back" class="text-black text-lg" onclick="showPanel('product-list')">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <h1 id="detail-title" class="font-semibold text-base">Galaxy 1642</h1>
+      <button aria-label="Favorite" class="text-black text-lg" id="detail-fav-btn" title="Toggle Favorite">
+        <i class="far fa-heart"></i>
+      </button>
+    </header>
+    <hr class="border-black border-t border-opacity-30 mb-4" />
+    <div
+      id="detail-image-placeholder"
+      class="w-28 h-28 bg-gray-200 mx-auto mb-6 flex items-center justify-center text-gray-500 text-xs"
+    >
+      No Image
+    </div>
+    <div class="mb-4">
+      <p id="detail-brand" class="text-xs text-gray-400 mb-1">Vitaluce</p>
+      <h2 id="detail-name" class="font-semibold text-lg mb-1">Galaxy 1642</h2>
+      <p id="detail-price" class="font-bold text-xl mb-2">$120</p>
+      <div
+        class=" syncing styles inline-flex items-center border border-gray-300 rounded-full overflow-hidden"
+        style="font-size: 0.875rem;"
+      >
+        <button
+          aria-label="Decrease quantity"
+          class="px-3 py-1 text-gray-700 hover:bg-gray-200"
+          onclick="changeDetailQuantity(-1)"
+        >
+          −
+        </button>
+        <span id="detail-quantity" class="px-4 py-1 bg-white select-none">1</span>
+        <button
+          aria-label="Increase quantity"
+          class="px-3 py-1 text-gray-700 hover:bg-gray-200"
+          onclick="changeDetailQuantity(1)"
+        >
+          +
+        </button>
+      </div>
+    </div>
+    <div class="flex justify-between items-center mb-3">
+      <div class="flex items-center gap-1 text-orange-500 text-sm" id="detail-stars">
+        <!-- Stars inserted by JS -->
+      </div>
+      <a href="#" id="detail-reviews" class="text-xs text-gray-600 hover:underline">430 reviews</a>
+    </div>
+    <div
+      id="detail-description"
+      class="text-[10px] text-gray-400 mb-10 leading-tight max-h-[90px] overflow-hidden"
+    >
+      <p class="font-semibold mb-1">Description:</p>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ut
+        suscipit arcu. Suspendisse volutpat, quam ut semper efficitur, dui
+        risus pellentesque ex, ut tincidunt dui tellus interdum nunc. Donec
+        dignissim nec odio sit amet dignissim. Aenean luctus massa pretium
+        lorem, nec convallis lorem dictum in. Nullam eleifend, sapien nec
+        convallis dapibus, lorem nisl sodales diam, nec efficitur urna urna
+        sodales diam. Pellentesque habitant morbi tristique senectus et netus
+        et malesuada fames id, vulputate est. Donec gravida
+      </p>
+    </div>
+    <button
+      aria-label="Add to cart"
+      class="bg-black text-white rounded-xl py-3 px-8 mx-auto flex items-center gap-2"
+      onclick="addToCartFromDetail()"
+    >
+      Add to cart <i class="fas fa-lock"></i>
+    </button>
   </section>
 
   <!-- Right Panel: Cart -->
@@ -38,7 +232,52 @@
     id="cart"
     class="w-[280px] bg-[#f6f5f6] rounded-2xl flex flex-col p-5 select-none hidden"
   >
-    <!-- ... (Konten section cart dari kode asli) ... -->
+    <header class="flex items-center gap-3 mb-4">
+      <button aria-label="Back" class="text-black text-lg" onclick="showPanel('product-list')">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <h1 class="font-semibold text-base">Cart</h1>
+    </header>
+    <p id="cart-product-count" class="text-xs mb-4">0 products</p>
+    <ul id="cart-items" class="flex flex-col gap-3 mb-6 max-h-[400px] overflow-y-auto">
+      <!-- Cart items inserted by JS -->
+    </ul>
+    <form class="flex gap-3 mb-6" onsubmit="applyPromoCode(event)">
+      <input
+        id="promo-code"
+        class="flex-grow rounded-lg border border-gray-300 px-4 py-3 text-xs text-gray-400 placeholder-gray-300 focus:outline-none"
+        placeholder="Promocode"
+        type="text"
+        autocomplete="off"
+      />
+      <button
+        class="bg-[#f97316] text-white rounded-lg px-6 py-3 text-xs font-semibold"
+        type="submit"
+      >
+        Apply
+      </button>
+    </form>
+    <dl class="text-xs mb-6">
+      <div class="flex justify-between mb-1">
+        <dt>Subtotal</dt>
+        <dd id="cart-subtotal" class="font-semibold">$0</dd>
+      </div>
+      <div class="flex justify-between mb-1">
+        <dt>Delivery</dt>
+        <dd id="cart-delivery" class="font-semibold">$14</dd>
+      </div>
+      <div class="flex justify-between border-t border-gray-300 pt-2 font-semibold text-sm">
+        <dt>Total</dt>
+        <dd id="cart-total">$14</dd>
+      </div>
+    </dl>
+    <button
+      aria-label="Checkout"
+      class="bg-black text-white rounded-xl py-3 px-12 mx-auto flex items-center justify-center"
+      onclick="checkout()"
+    >
+      Checkout
+    </button>
   </section>
 
   <script src="assets/js/script.js"></script>
