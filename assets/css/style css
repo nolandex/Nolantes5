@@ -1,7 +1,13 @@
 body {
   font-family: "Inter", sans-serif;
   background: linear-gradient(135deg, #c3c9d9, #e0e3ea);
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
+
 /* Hide scrollbar for horizontal scroll */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -9,4 +15,31 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Ensure sections take full height and are scrollable */
+section {
+  height: 100vh;
+}
+
+/* Adjust product cards for better spacing in full-screen */
+#all-products article,
+#popular-products article {
+  min-width: 120px;
+}
+
+/* Ensure cart items are scrollable without affecting layout */
+#cart-items {
+  max-height: 50vh;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  section {
+    height: auto;
+    min-height: 100vh;
+  }
+  #cart-items {
+    max-height: 40vh;
+  }
 }
