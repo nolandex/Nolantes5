@@ -19,6 +19,14 @@ body {
 
 /* Ensure sections take full height and are scrollable */
 section {
+  height: calc(100vh - 60px); /* Adjust for footer height */
+}
+
+/* Sidebar styles */
+#sidebar {
+  height: calc(100vh - 60px); /* Adjust for footer height */
+}
+#overlay {
   height: 100vh;
 }
 
@@ -30,16 +38,21 @@ section {
 
 /* Ensure cart items are scrollable without affecting layout */
 #cart-items {
-  max-height: 50vh;
+  max-height: 40vh;
 }
 
 /* Responsive adjustments for smaller screens */
 @media (max-width: 768px) {
   section {
     height: auto;
-    min-height: 100vh;
+    min-height: calc(100vh - 60px);
   }
   #cart-items {
-    max-height: 40vh;
+    max-height: 30vh;
   }
+}
+
+/* Footer styles */
+footer {
+  height: 60px;
 }
